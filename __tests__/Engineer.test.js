@@ -1,4 +1,3 @@
-const Employee = require('../lib/Employee');
 const Engineer = require('../lib/Engineer');
 
 describe('Engineer', () => {
@@ -18,5 +17,3 @@ describe('Engineer', () => {
         })
     })
 })
-
-module.exports = Employee
