@@ -3,33 +3,33 @@ const Employee = require('../lib/Employee');
 describe('Employee', () => {
     describe('getName', () => {
         it('should get the name of the Employee', () => {
-            const employeeName = new getName();
-            const name = 'Emily';
+            const testName = 'Emily';
+            const testEmployee = new Employee('Emily', 1, "test@test.com");
 
-            expect(employeeName) = name;
+            expect(testEmployee.getName()).toEqual(testName);
         })
     })
     describe('getId', () => {
-        it('should get the Id of hte Employee', () => {
-            const employeeId = new getId()
-            const Id = "1"
+        it('should get the Id of the Employee', () => {
+            const testId = 1;
+            const testEmployee = new Employee('Emily', 1, "test@test.com");
 
-            expect(employeeId) = Id;
+            expect(testEmployee.getId()).toEqual(testId);
         })
     })
     describe('getEmail', () => {
         it('should get the Id of hte Employee', () => {
-            const employeeEmail = new getEmail()
-            const Email = "email@example.com"
+            const testEmail = 'test@test.com';
+            const testEmployee = new Employee('Emily', 1, "test@test.com");
 
-            expect(employeeEmail) = Email;
+            expect(testEmployee.getEmail()).toEqual(testEmail);
         })
     })
     describe('getRole', () => {
         it('should get the Id of hte Employee', () => {
-            const gettingRole = new getRole();
+            const testEmployee = new Employee('Emily', 1, "test@test.com");
 
-            expect(gettingRole) = Employee;
+            expect(testEmployee.getRole()).toEqual('Employee');
         })
     })
 })

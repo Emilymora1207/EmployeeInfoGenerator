@@ -1,3 +1,4 @@
+//requiring the other files
 const inquirer = require('inquirer');
 const fs = require('fs');
 const Employee = require('./lib/Employee');
@@ -5,7 +6,7 @@ const Manager = require('./lib/Manager');
 const Engeneer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 
-
+//array of questions for the manager
 const managerQuestions = [
   {
     type: 'input',
@@ -29,6 +30,7 @@ const managerQuestions = [
   },
 ]
 
+//array
 const engineerQuestions = [
   {
     type: 'input',
@@ -52,6 +54,7 @@ const engineerQuestions = [
   },
 ]
 
+//array of questions for the Intern
 const InternQuestions = [
   {
     type: 'input',
@@ -75,6 +78,7 @@ const InternQuestions = [
   },
 ]
 
+//the user chooses to add a, engineer, intern, or to stop adding employees. 
 const employeeTypeQuestion = [
   {
     type: 'list',
@@ -84,6 +88,7 @@ const employeeTypeQuestion = [
   },
 ]
 
+//starter html code with added Manager info
 function managerResponse(response){
 const boss = new Manager(response.name, response.ID, response.email, response.officeNumber)
 const html = `<!DOCTYPE html>
@@ -103,13 +108,13 @@ const html = `<!DOCTYPE html>
   <main>
     <section>
       <div>
-        <h1>${response.name}</h1>
-        <h2><i class="fa-solid fa-mug-hot"></i> Manager</h2>
+        <h1>${boss.getName()}</h1>
+        <h2><i class="fa-solid fa-mug-hot"></i> ${boss.getRole()}</h2>
       </div>
       <ul>
-        <li>ID: ${response.ID}</li>
-        <li>Email: <a href=mailto:“${response.email}”>${response.email}</a></li>
-        <li>Office Number: ${response.officeNumber}</li>
+        <li>ID: ${boss.getId()}</li>
+        <li>Email: <a href=mailto:“${boss.getEmail()}”>${boss.getEmail()}</a></li>
+        <li>Office Number: ${boss.getOfficeNumber()}</li>
 
       </ul>
     </section>
@@ -119,17 +124,18 @@ const html = `<!DOCTYPE html>
       console.log(response);
 }
 
+//adding engineer info to the html code 
 function engineerResponse(response) {
-  const boss = new Engeneer(response.name, response.ID, response.email, response.officeNumber)
+  const engin = new Engeneer(response.name, response.ID, response.email, response.officeNumber)
     const engineerHtml =     `<section>
     <div>
-      <h1>${response.name}</h1>
-      <h2><i class="fa-solid fa-laptop-code"></i> Engineer</h2>
+      <h1>${engin.getName()}</h1>
+      <h2><i class="fa-solid fa-laptop-code"></i> ${engin.getRole()}</h2>
     </div>
     <ul>
-      <li>ID: ${response.ID}</li>
-      <li>Email: <a href=mailto:“${response.email}”>${response.email}</a></li>
-      <li>GitHub Username: <a href = https://github.com/${response.GitHubUserName}>${response.GitHubUserName}</a></li>
+      <li>ID: ${engin.getId()}</li>
+      <li>Email: <a href=mailto:“${engin.getEmail()}”>${engin.getEmail()}</a></li>
+      <li>GitHub Username: <a href = https://github.com/${engin.getGithub()}>${engin.getGithub()}</a></li>
     </ul>
   </section>`
   fs.appendFile('dist/index.html', engineerHtml , (err) =>
@@ -137,17 +143,18 @@ function engineerResponse(response) {
   console.log(response);
 }
 
+//adding intern info to the html code 
 function internResponse(response){
-  const boss = new Intern(response.name, response.ID, response.email, response.officeNumber)
+  const intern = new Intern(response.name, response.ID, response.email, response.officeNumber)
   const internHtml =     `<section>
   <div>
-    <h1>${response.name}</h1>
-    <h2><i class="fa-solid fa-user-graduate"></i> Intern</h2>
+    <h1>${intern.getName()}</h1>
+    <h2><i class="fa-solid fa-user-graduate"></i> ${intern.getRole()}</h2>
   </div>
   <ul>
-    <li>ID: ${response.ID}</li>
-    <li>Email: <a href=mailto:“${response.email}”>${response.email}</a></li>
-    <li>School: ${response.School}</li>
+    <li>ID: ${intern.getId()}</li>
+    <li>Email: <a href=mailto:“${intern.getEmail()}”>${intern.getEmail()}</a></li>
+    <li>School: ${intern.getSchool()}</li>
   </ul>
 </section>`
 fs.appendFile('dist/index.html', internHtml , (err) =>
@@ -155,10 +162,13 @@ err ? console.error(err) : console.log('Commit logged!'))
 console.log(response);
 }
 
+
 function employeeTypePrompt() {
   inquirer
+//prompts to choose to add an engineer. intern, or to stop adding employees 
   .prompt(employeeTypeQuestion)
   .then((response) => {
+    //if they choose "Engineer" the engineer questions will  run and then add the info to the html code
     if(response.employeeType === 'Engineer') {
       inquirer
       .prompt(engineerQuestions)
@@ -167,6 +177,7 @@ function employeeTypePrompt() {
         engineerResponse(response);
         employeeTypePrompt();
       })
+         //if they choose "Intern" the Intern questions will  run and then add the info to the html code
     } else if (response.employeeType === `Intern`){
       inquirer
       .prompt(InternQuestions)
@@ -175,6 +186,7 @@ function employeeTypePrompt() {
         internResponse(response);
         employeeTypePrompt();
       })
+      //If they choose to stop adding employees then this code will be added to the end of the html document 
     } else {
       const endHtml = `</main>
       <script src="https://kit.fontawesome.com/b992a995bb.js" crossorigin="anonymous"></script>
@@ -189,6 +201,7 @@ function employeeTypePrompt() {
   })
 }
 
+//starts the first prompt of the manager questions
 inquirer
   .prompt(managerQuestions)
   .then((response) => {
